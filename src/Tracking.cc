@@ -40,6 +40,16 @@
 
 using namespace std;
 
+// 程序中变量名的第一个字母如果为"m"则表示为类中的成员变量，member
+// 第一个、第二个字母:
+// "p"表示 指针 数据类型
+// "n"表示 int 类型
+// "b"表示 bool 类型
+// "s"表示 set 类型
+// "v"表示 vector 数据类型
+// 'l'表示 list 数据类型
+// "KF"表示 KeyPoint 数据类型
+
 namespace ORB_SLAM2
 {
 
