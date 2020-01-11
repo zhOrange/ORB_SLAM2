@@ -64,6 +64,8 @@ We use the new thread and chrono functionalities of C++11.
 ## Pangolin
 We use [Pangolin](https://github.com/stevenlovegrove/Pangolin) for visualization and user interface. Dowload and install instructions can be found at: https://github.com/stevenlovegrove/Pangolin.
 
+在安装Pangolin库的时候,遇到一些问题,其中有一个报了"xkbcommon"库未找到的error,尝试安装时总是失败,最后通过更换源的方式解决.(原来的源为阿里源,更换为官方的源后,重新安装该库,即可安装成功.)
+
 ## OpenCV
 We use [OpenCV](http://opencv.org) to manipulate images and features. Dowload and install instructions can be found at: http://opencv.org. **Required at leat 2.4.3. Tested with OpenCV 2.4.11 and OpenCV 3.2**.
 
