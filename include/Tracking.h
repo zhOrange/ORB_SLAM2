@@ -93,11 +93,13 @@ public:
     int mSensor;
 
     // Current Frame
+    //当前帧
     Frame mCurrentFrame;
     cv::Mat mImGray;
 
     // Initialization Variables (Monocular)
     std::vector<int> mvIniLastMatches;
+    //初始化时,前两帧之间的匹配.
     std::vector<int> mvIniMatches;
     std::vector<cv::Point2f> mvbPrevMatched;
     std::vector<cv::Point3f> mvIniP3D;
@@ -105,12 +107,15 @@ public:
 
     // Lists used to recover the full camera trajectory at the end of the execution.
     // Basically we store the reference keyframe for each frame and its relative transformation
+    //参考关键帧位姿?
     list<cv::Mat> mlRelativeFramePoses;
+    //参考关键帧
     list<KeyFrame*> mlpReferences;
     list<double> mlFrameTimes;
     list<bool> mlbLost;
 
     // True if local mapping is deactivated and we are performing only localization
+    //只跟踪模式.
     bool mbOnlyTracking;
 
     void Reset();
@@ -148,6 +153,7 @@ protected:
     // points in the map. Still tracking will continue if there are enough matches with temporal points.
     // In that case we are doing visual odometry. The system will try to do relocalization to recover
     // "zero-drift" localization to the map.
+    //VO: visual odometry(视觉里程计)
     bool mbVO;
 
     //Other Thread Pointers
@@ -155,6 +161,11 @@ protected:
     LoopClosing* mpLoopClosing;
 
     //ORB
+    //ORB
+    // orb特征提取器，不管单目还是双目，mpORBextractorLeft都要用到
+    // 如果是双目，则要用到mpORBextractorRight
+    // 如果是单目，在初始化的时候使用mpIniORBextractor而不是mpORBextractorLeft，
+    // mpIniORBextractor属性中提取的特征点个数是mpORBextractorLeft的两倍
     ORBextractor* mpORBextractorLeft, *mpORBextractorRight;
     ORBextractor* mpIniORBextractor;
 
@@ -163,11 +174,15 @@ protected:
     KeyFrameDatabase* mpKeyFrameDB;
 
     // Initalization (only for monocular)
+    // 单目初始器
     Initializer* mpInitializer;
 
     //Local Map
+    // 当前关键帧就是参考关键帧
     KeyFrame* mpReferenceKF;
+    //局部关键帧
     std::vector<KeyFrame*> mvpLocalKeyFrames;
+    //局部3D地图点
     std::vector<MapPoint*> mvpLocalMapPoints;
     
     // System
