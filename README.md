@@ -7,5 +7,6 @@
 
 1. 在源码基础上,LoopClosing.h和LocalMapping.h里面,添加了#include "unistd.h"
 2. 添加了源码注释.
+3. 等待后续更新各库说明.
 
 后续,计划对ORB_SLAM2中用到的库,简单做个说明.
