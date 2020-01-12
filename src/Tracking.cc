@@ -449,7 +449,7 @@ void Tracking::Track()
                             }
                         }
                     }
-                    else if(bOKReloc)   )// 只要重定位成功整个跟踪过程正常进行（定位与跟踪，更相信重定位）
+                    else if(bOKReloc)   // 只要重定位成功整个跟踪过程正常进行（定位与跟踪，更相信重定位）
                     {
                         mbVO = false;
                     }
