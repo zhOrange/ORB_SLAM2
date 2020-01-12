@@ -32,9 +32,12 @@ namespace ORB_SLAM2
 FrameDrawer::FrameDrawer(Map* pMap):mpMap(pMap)
 {
     mState=Tracking::SYSTEM_NOT_READY;
+    // 存储用于画图的Frame信息
+    // 包括：图像 特征点连线形成的轨迹（初始化时） 框（跟踪时的MapPoint） 圈（跟踪时的特征点）
     mIm = cv::Mat(480,640,CV_8UC3, cv::Scalar(0,0,0));
 }
 
+// 准备需要显示的信息，包括图像、状态、其它的提示
 cv::Mat FrameDrawer::DrawFrame()
 {
     cv::Mat im;
@@ -45,13 +48,14 @@ cv::Mat FrameDrawer::DrawFrame()
     int state; // Tracking state
 
     //Copy variables within scoped mutex
+    // 将成员变量赋值给局部变量，加互斥锁
     {
         unique_lock<mutex> lock(mMutex);
         state=mState;
         if(mState==Tracking::SYSTEM_NOT_READY)
             mState=Tracking::NO_IMAGES_YET;
 
-        mIm.copyTo(im);
+        mIm.copyTo(im);// 这里使用深拷贝是因为后面会把单通道灰度图像转为3通道图像
 
         if(mState==Tracking::NOT_INITIALIZED)
         {
@@ -75,6 +79,7 @@ cv::Mat FrameDrawer::DrawFrame()
         cvtColor(im,im,CV_GRAY2BGR);
 
     //Draw
+    // 当前帧的特征坐标与初始帧的特征点坐标连成线，形成轨迹
     if(state==Tracking::NOT_INITIALIZED) //INITIALIZING
     {
         for(unsigned int i=0; i<vMatches.size(); i++)
@@ -90,9 +95,10 @@ cv::Mat FrameDrawer::DrawFrame()
     {
         mnTracked=0;
         mnTrackedVO=0;
+
+        // Draw keypoints
         const float r = 5;
-        const int n = vCurrentKeys.size();
-        for(int i=0;i<n;i++)
+        for(int i=0;i<N;i++)
         {
             if(vbVO[i] || vbMap[i])
             {
@@ -105,12 +111,14 @@ cv::Mat FrameDrawer::DrawFrame()
                 // This is a match to a MapPoint in the map
                 if(vbMap[i])
                 {
+                    // 绿色，表示在MapPoint对应的特征点
                     cv::rectangle(im,pt1,pt2,cv::Scalar(0,255,0));
                     cv::circle(im,vCurrentKeys[i].pt,2,cv::Scalar(0,255,0),-1);
                     mnTracked++;
                 }
                 else // This is match to a "visual odometry" MapPoint created in the last frame
                 {
+                    // 蓝色，表示上一帧visual odometry产生的点对应的特征点
                     cv::rectangle(im,pt1,pt2,cv::Scalar(255,0,0));
                     cv::circle(im,vCurrentKeys[i].pt,2,cv::Scalar(255,0,0),-1);
                     mnTrackedVO++;
