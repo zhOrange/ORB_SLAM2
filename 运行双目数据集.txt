@@ -1,0 +1,1 @@
+./Examples/Stereo/stereo_euroc Vocabulary/ORBvoc.txt Examples/Stereo/EuRoC.yaml Examples/data/mav0/cam0/data Examples/data/mav0/cam1/data Examples/Stereo/EuRoC_TimeStamps/V101.txt
